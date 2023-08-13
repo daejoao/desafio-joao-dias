@@ -39,6 +39,19 @@ class CaixaDaLanchonete {
         return "";
     }
 
+    calcularDescontosOuTaxas(metodoDePagamento, valorDaCompra){
+        switch (metodoDePagamento){
+            case 'dinheiro':
+                const desconto = valorDaCompra * (5/100);
+                return valorDaCompra - desconto;
+
+            case 'credito':
+                const taxa = valorDaCompra * (3/100);
+                return valorDaCompra + taxa;
+        }
+
+        return valorDaCompra;
+    }
 }
 
 export { CaixaDaLanchonete };
