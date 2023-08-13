@@ -29,10 +29,13 @@ class CaixaDaLanchonete {
      *  Se a forma de pagamento não existir, printar "Forma de pagamento inválida!".
      */
 
+    /**
+     * 
+     * @param {string} metodoDePagamento - Valores possíveis: 'debito', 'credito' ou 'dinheiro'
+     * @param {Array} itens - Items que serão comprados. Cada item é uma string contendo o código do item e a quantidade. Ex: ['cafe,1','chantily,1'] 
+     * @returns {string} Valor da compra
+     */
     calcularValorDaCompra(metodoDePagamento, itens) {
-        // metodoDePagamento: string | possíveis valores: 'debito', 'credito', 'dinheiro';
-        // itens: array | itens que serão comprados. Cada item é uma string contendo o código do item e a quantidade separados por uma vírgula. Ex: ['cafe,1','chantily,1'];
-
         return "";
     }
 
