@@ -36,6 +36,8 @@ class CaixaDaLanchonete {
      * @returns {string} Valor da compra
      */
     calcularValorDaCompra(metodoDePagamento, itens) {
+        if (!this.verificaSeExistemItemsNoCarrinho(itens)) return 'Não há itens no carrinho de compra!';
+
         return "";
     }
 
@@ -51,6 +53,10 @@ class CaixaDaLanchonete {
         }
 
         return valorDaCompra;
+    }
+
+    verificaSeExistemItemsNoCarrinho(items){
+        return (items.length > 0 ? true : false);
     }
 }
 
