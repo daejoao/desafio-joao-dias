@@ -1,5 +1,6 @@
 class CaixaDaLanchonete {
-
+    metodosDePagamento = ['debito', 'credito', 'dinheiro'];
+    
     /**
      *  Código      Descrição                   Valor
      *  cafe        Café                        R$ 3,00
@@ -36,6 +37,7 @@ class CaixaDaLanchonete {
      * @returns {string} Valor da compra
      */
     calcularValorDaCompra(metodoDePagamento, itens) {
+        if (!this.validaMetodoDePagamento(metodoDePagamento)) return 'Forma de pagamento inválida!';
         if (!this.verificaSeExistemItemsNoCarrinho(itens)) return 'Não há itens no carrinho de compra!';
 
         return "";
@@ -57,6 +59,10 @@ class CaixaDaLanchonete {
 
     verificaSeExistemItemsNoCarrinho(items){
         return (items.length > 0 ? true : false);
+    }
+
+    validaMetodoDePagamento(metodoDePagamento){
+        return (this.metodosDePagamento.includes(metodoDePagamento) ? true : false);
     }
 }
 
