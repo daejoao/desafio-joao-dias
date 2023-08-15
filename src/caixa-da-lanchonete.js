@@ -1,6 +1,9 @@
+import { cardapio } from "./cardapio.js";
+
 class CaixaDaLanchonete {
     metodosDePagamento = ['debito', 'credito', 'dinheiro'];
-    
+    cardapio = cardapio;
+
     /**
      *  Código      Descrição                   Valor
      *  cafe        Café                        R$ 3,00
@@ -40,6 +43,11 @@ class CaixaDaLanchonete {
         if (!this.validaMetodoDePagamento(metodoDePagamento)) return 'Forma de pagamento inválida!';
         if (!this.verificaSeExistemItemsNoCarrinho(itens)) return 'Não há itens no carrinho de compra!';
 
+        const itensDoCarrinho = this.estruturaItensDoCarrinho(itens);
+
+        if (!this.validaCodigoDosItens(itensDoCarrinho)) return 'Item inválido!';
+        if (!this.validaQuantidadeDosItens(itensDoCarrinho)) return 'Quantidade inválida!';
+
         return "";
     }
 
@@ -63,6 +71,35 @@ class CaixaDaLanchonete {
 
     validaMetodoDePagamento(metodoDePagamento){
         return (this.metodosDePagamento.includes(metodoDePagamento) ? true : false);
+    }
+
+    estruturaItensDoCarrinho(itens){
+        const itensDoCarrinho = itens.map((item) => {
+            const codigoEQuantidade = item.split(',');
+            const codigo = codigoEQuantidade[0];
+            const quantidade = codigoEQuantidade[1];
+
+            return {
+                codigo: codigo,
+                quantidade: quantidade 
+            }
+        });
+
+        return itensDoCarrinho;
+    }
+
+    validaCodigoDosItens(itens){ // To-do - verificaSeItemExisteNoCardapio (?)
+        for (const item of itens){
+            const itemExisteNoCardapio = this.cardapio.some(itemDoCardapio => itemDoCardapio.codigo === item.codigo);
+        
+            if (!itemExisteNoCardapio) return false;
+        }
+
+        return true;
+    }
+
+    validaQuantidadeDosItens(itens){
+        return (itens.every(item => item.quantidade > 0));
     }
 }
 
