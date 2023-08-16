@@ -43,12 +43,32 @@ class CaixaDaLanchonete {
         if (!this.validaMetodoDePagamento(metodoDePagamento)) return 'Forma de pagamento inválida!';
         if (!this.verificaSeExistemItemsNoCarrinho(itens)) return 'Não há itens no carrinho de compra!';
 
-        const itensDoCarrinho = this.estruturaItensDoCarrinho(itens);
+        const carrinhoDeCompras = this.estruturaItensDoCarrinho(itens);
 
-        if (!this.verificaSeItensExistemNoCardapio(itensDoCarrinho)) return 'Item inválido!';
-        if (!this.validaQuantidadeDosItens(itensDoCarrinho)) return 'Quantidade inválida!';
+        if (!this.verificaSeItensExistemNoCardapio(carrinhoDeCompras)) return 'Item inválido!';
+        if (!this.validaQuantidadeDosItens(carrinhoDeCompras)) return 'Quantidade inválida!';
 
-        return "";
+        let valorTotal = 0;
+
+        // To-do: Refatorar trecho de código e organizá-lo em funções próprias.
+        // To-do: Tentar usar o método "reduce" para calcular o valor total da compras.
+        for (const item of carrinhoDeCompras){
+            // Verifica a existência de itens extras no carrinho de compras.
+            // Verifica se o item principal do item extra também está presente no carrinho.
+            if (item.extra){
+                const itemPrincipal = item.itemPrincipal;
+                const itemPrincipalExisteNoCarrinho = carrinhoDeCompras.some((item) => item.codigo === itemPrincipal.codigo);
+
+                if (!itemPrincipalExisteNoCarrinho) return "Item extra não pode ser pedido sem o principal";
+            }
+
+            valorTotal += item.valor * item.quantidade;
+        };
+
+        valorTotal = this.calcularDescontosOuTaxas(metodoDePagamento, valorTotal);
+        valorTotal = (`R$ ${valorTotal.toFixed(2)}`).replace('.', ',');
+
+        return valorTotal;
     }
 
     calcularDescontosOuTaxas(metodoDePagamento, valorDaCompra){
