@@ -45,7 +45,7 @@ class CaixaDaLanchonete {
 
         const itensDoCarrinho = this.estruturaItensDoCarrinho(itens);
 
-        if (!this.validaCodigoDosItens(itensDoCarrinho)) return 'Item inválido!';
+        if (!this.verificaSeItensExistemNoCardapio(itensDoCarrinho)) return 'Item inválido!';
         if (!this.validaQuantidadeDosItens(itensDoCarrinho)) return 'Quantidade inválida!';
 
         return "";
@@ -77,21 +77,30 @@ class CaixaDaLanchonete {
         const itensDoCarrinho = itens.map((item) => {
             const codigoEQuantidade = item.split(',');
             const codigo = codigoEQuantidade[0];
-            const quantidade = codigoEQuantidade[1];
+            const quantidade = parseInt(codigoEQuantidade[1]);
 
-            return {
-                codigo: codigo,
-                quantidade: quantidade 
-            }
+
+            const itemDoCarrinho = this.cardapio.find((itemDoCardapio) => itemDoCardapio.codigo === codigo);
+
+            if (!itemDoCarrinho) return null;
+
+            if (itemDoCarrinho){
+                return {
+                    ...itemDoCarrinho,
+                    quantidade: quantidade
+                }
+            } 
         });
 
         return itensDoCarrinho;
     }
 
-    validaCodigoDosItens(itens){ // To-do - verificaSeItemExisteNoCardapio (?)
+    verificaSeItensExistemNoCardapio(itens){ 
         for (const item of itens){
+            if (!item) return false;
+
             const itemExisteNoCardapio = this.cardapio.some(itemDoCardapio => itemDoCardapio.codigo === item.codigo);
-        
+            
             if (!itemExisteNoCardapio) return false;
         }
 
