@@ -6,7 +6,13 @@ const cardapio = [
     },
     {
         codigo: 'chantily',
-        descricao: 'Chantily (extra do Café)',
+        descricao: 'Chantily',
+        extra: true,
+        itemPrincipal: {
+            codigo: 'cafe',
+            descricao: 'Café',
+            valor: 3.00
+        },
         valor: 1.50
     },
     {
@@ -16,12 +22,18 @@ const cardapio = [
     },
     {
         codigo: 'sanduiche',
-        descricao: 'Sanduiche',
+        descricao: 'Sanduíche',
         valor: 6.50
     },
     {
         codigo: 'queijo',
-        descricao: 'Queijo (extra do Sanduíche)',
+        descricao: 'Queijo',
+        extra: true,
+        itemPrincipal: {
+            codigo: 'sanduiche',
+            descricao: 'Sanduíche',
+            valor: 6.50
+        },
         valor: 2.00
     },
     {
