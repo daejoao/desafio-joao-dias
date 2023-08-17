@@ -50,22 +50,13 @@ class CaixaDaLanchonete {
 
         let valorTotal = 0;
 
-        // To-do: Refatorar trecho de código e organizá-lo em funções próprias.
-        // To-do: Tentar usar o método "reduce" para calcular o valor total da compras.
         for (const item of carrinhoDeCompras){
-            // Verifica a existência de itens extras no carrinho de compras.
-            // Verifica se o item principal do item extra também está presente no carrinho.
-            if (item.extra){
-                const itemPrincipal = item.itemPrincipal;
-                const itemPrincipalExisteNoCarrinho = carrinhoDeCompras.some((item) => item.codigo === itemPrincipal.codigo);
-
-                if (!itemPrincipalExisteNoCarrinho) return "Item extra não pode ser pedido sem o principal";
-            }
+            if (item.extra && (!this.validaItemExtra(item, carrinhoDeCompras))) return "Item extra não pode ser pedido sem o principal";
 
             valorTotal += item.valor * item.quantidade;
         };
 
-        let valorFinal = this.calcularDescontosOuTaxas(metodoDePagamento, valorTotal);
+        const valorFinal = this.calcularDescontosOuTaxas(metodoDePagamento, valorTotal);
 
         return this.formataValorDaCompra(valorFinal);
     }
@@ -73,7 +64,7 @@ class CaixaDaLanchonete {
     formataValorDaCompra(valor){
         return (`R$ ${valor.toFixed(2)}`).replace('.', ',');
     }
-    
+
     calcularDescontosOuTaxas(metodoDePagamento, valorDaCompra){
         switch (metodoDePagamento){
             case 'dinheiro':
@@ -132,6 +123,13 @@ class CaixaDaLanchonete {
 
     validaQuantidadeDosItens(itens){
         return (itens.every(item => item.quantidade > 0));
+    }
+
+    validaItemExtra(itemExtra, carrinhoDeCompras){
+        // Verifica se o item principal do item extra também está presente no carrinho.
+
+        const itemPrincipal = itemExtra.itemPrincipal;
+        return (carrinhoDeCompras.some((item) => item.codigo === itemPrincipal.codigo));
     }
 }
 
