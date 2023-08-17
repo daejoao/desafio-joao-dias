@@ -65,12 +65,15 @@ class CaixaDaLanchonete {
             valorTotal += item.valor * item.quantidade;
         };
 
-        valorTotal = this.calcularDescontosOuTaxas(metodoDePagamento, valorTotal);
-        valorTotal = (`R$ ${valorTotal.toFixed(2)}`).replace('.', ',');
+        let valorFinal = this.calcularDescontosOuTaxas(metodoDePagamento, valorTotal);
 
-        return valorTotal;
+        return this.formataValorDaCompra(valorFinal);
     }
 
+    formataValorDaCompra(valor){
+        return (`R$ ${valor.toFixed(2)}`).replace('.', ',');
+    }
+    
     calcularDescontosOuTaxas(metodoDePagamento, valorDaCompra){
         switch (metodoDePagamento){
             case 'dinheiro':
